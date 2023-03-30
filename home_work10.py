@@ -3,8 +3,6 @@ import re
 
 
 class AddressBook(UserDict):
-    def __init__(self):
-        self.data = {}
 
     def add_record(self, record):
         self.data[record.name.value] = record
@@ -38,10 +36,11 @@ class Phone(Field):
 
 
 class Record:
-    def __init__(self, name):
+    def __init__(self, name, phone=None):
         self.name = Name(name)
         self.phones = []
-
+        if phone:
+            self.add_phone(phone)
     def add_phone(self, phone):
         phone_obj = Phone(phone)
         phone_obj.validate()
@@ -66,7 +65,7 @@ class Record:
         return f"{self.name}\n{', '.join(str(p) for p in self.phones)}"
 
 
-my_contacts = {}
+my_contacts = AddressBook()
 
 
 def input_error(func):
